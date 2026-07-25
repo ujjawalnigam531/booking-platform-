@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const mail = require('../service/emailVerfication')
 require('dotenv').config()
 
-var obj={}
+
 async function register(req, res) {
     const { name, email, password, role, phone, Image } = req.body;
     const result = await registerModel.findOne({
@@ -23,29 +23,12 @@ async function register(req, res) {
      await mail.mail(email)
     obj = { name, email, password, role, phone, Image }
     
-    // const newPassword= await bcrypt.hash(password,10)
-
-    // const user = await registerModel.create({
-    //     name,email,password:newPassword,role,phone,Image
-    // })
-    // const token = await jwt.sign({id:user._id},process.env.SECRET_KEY, { expiresIn: '7d' })
-    // res.cookie("token",token, {        
-    //     httpOnly: true,        
-    //     secure: true           
-    //      }) 
-
-    // const users=await registerModel.findOne({name:user.email}).select('-password')
-    // res.status(201).json({
-    //    message:"user is created ",
-    //    users 
-    // })
+    
 }
 
 async function otpVerification(req, res) {
     const { name, email, password, role, phone, Image } =obj
     const { otp } = req.body
-
-      
 
       if (mail.otp == otp) {
         const newPassword = await bcrypt.hash(password, 10)
