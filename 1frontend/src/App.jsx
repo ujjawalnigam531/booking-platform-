@@ -1,17 +1,19 @@
-  import React from 'react';
+import React from 'react'
+import { Routes,Route } from 'react-router-dom'
+import Register from './pages/Register'
+import VerifyOtp from './pages/VerifyOtp'
+const App = () => {
+  return (
+    <div>
+      
+  <Routes>
+  <Route path='/register' element={<Register />} />
+  <Route path='/verifyotp' element={<VerifyOtp />} />
+ </Routes>
+    </div>
+  )
+}
 
-  import { ToastContainer, toast } from 'react-toastify';
-  
-  function App(){
-    const notify = () => toast("  ordered");
+export default App
 
-    return (
-      <div>
-        <button onClick={notify}>Notify!</button>
-        <ToastContainer  />
-      </div>
-    );
-  }
-  
-  export default App
   
