@@ -1,20 +1,15 @@
 const mongoose=require('mongoose')
 
-const otpSchema=new mongoose.Schema({
-    email:{
-        type:String,
-        required:true,
-      
-    },
-    otp:{
-        type:Number,
-        required:true
-    },
+const userSchema=new mongoose.Schema({
     name:{
         type:String,
         required:true,
     },
-    
+    email:{
+        type:String,
+        required:true,
+        unique:true
+    },
     password:{
         type:String,
         required:true,
@@ -28,15 +23,14 @@ const otpSchema=new mongoose.Schema({
     phone:{
         type:Number,
         required:true,
-       
+        unique:true
     },
     Image:{
         type:String,
         required:true
-    },
-    createdAt: { type: Date, default: Date.now, expires: 300 }
+    }
 
-})
+}) 
 
-const optModel=mongoose.model("otp",otpSchema)
-module.exports=optModel
+const Model1=mongoose.model("model",userSchema)
+module.exports=Model1

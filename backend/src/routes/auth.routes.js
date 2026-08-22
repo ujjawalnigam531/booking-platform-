@@ -1,7 +1,10 @@
 const express=require('express')
 const router=express.Router()
 const registerFun=require('../controllers/user.controller')
-router.post('/userRegister', registerFun.register)
+const upload=require("../middlwares/multer")
+router.post('/userRegister',upload.single('Image'), registerFun.register)
 router.post('/otp',registerFun.otpVerification)
-
+router.post('/login',registerFun.login)
+router.post('/logout',registerFun.logout)
+router.get('/me',registerFun.me)
 module.exports=router

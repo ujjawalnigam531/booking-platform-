@@ -1,4 +1,3 @@
-
 const nodemailer=require('nodemailer')
 require('dotenv').config();
 const transporter = nodemailer.createTransport({
@@ -9,13 +8,14 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+
 function mail(userEmail){
     const otp=Math.floor(Math.random()*1000000)
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: userEmail,
-      subject: 'Test Email',
+      subject: 'otp mail',
       text: `your otp is ${otp}`,
       
     };
@@ -28,6 +28,7 @@ function mail(userEmail){
         console.log('Email sent:', info.response);
       }
     });
+    return otp
 }
 
 module.exports={mail};

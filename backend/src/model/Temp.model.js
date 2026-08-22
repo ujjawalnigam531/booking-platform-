@@ -1,15 +1,20 @@
 const mongoose=require('mongoose')
 
-const userSchema=new mongoose.Schema({
+const tempSchema=new mongoose.Schema({
+    email:{
+        type:String,
+        required:true,
+      
+    },
+    otp:{
+        type:Number,
+        required:true
+    },
     name:{
         type:String,
         required:true,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
-    },
+    
     password:{
         type:String,
         required:true,
@@ -23,14 +28,15 @@ const userSchema=new mongoose.Schema({
     phone:{
         type:Number,
         required:true,
-        unique:true
+       
     },
     Image:{
         type:String,
         required:true
-    }
+    },
+    createdAt: { type: Date, default: Date.now, expires: 300 }
 
-}) 
+})
 
-const registerModel=mongoose.model("user",userSchema)
+const registerModel=mongoose.model("user",tempSchema)
 module.exports=registerModel
