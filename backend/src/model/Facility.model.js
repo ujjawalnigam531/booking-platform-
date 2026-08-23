@@ -9,7 +9,7 @@ const facilitySchema=new mongoose.Schema({
         required:true
     },
     name:{
-        type:string,
+        type:String,
         required:true
     },
     location:{
@@ -28,9 +28,9 @@ const facilitySchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    sportAvailable:[{type:string,enum:["Cricket","Football","VolleyBall","BasketBall"]}],
+    sportAvailable:[{type:String,enum:["Cricket","Football","VolleyBall","BasketBall"]}],
     Image:{
-        type:string,
+        type:String,
         required:true
     }
 },{timestamps:true})

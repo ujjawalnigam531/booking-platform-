@@ -11,7 +11,7 @@ async function register(req, res) {
 
     try{
     const { name, email, password, role, phone } = req.body;
-    const {Image}=req.file
+    
     const result = await registerModel.findOne({
         $or: [{ phone }, { email }]
     })
@@ -33,8 +33,8 @@ async function register(req, res) {
 
     const otp = await mail.mail(email)
     const newPassword = await bcrypt.hash(password, 10)
-    const result= await  uploadImage(Image.buffer,"profile.jpg")
-    const user=await registerModel.create({ name, email, password: newPassword, role, phone, Image:result.url,otp } )
+    const result2= await  uploadImage(req.file.buffer,"profile.jpg")
+    const user=await registerModel.create({ name, email, password: newPassword, role, phone, Image:result2.url,otp } )
     res.status(200).json({
         message: "now verifying email ",
 
@@ -76,10 +76,7 @@ async function otpVerification(req, res) {
         })
         
         const token = await jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: '7d' })
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true
-        })
+        res.cookie("token", token)
         await registerModel.deleteOne({ email })
        
         res.status(201).json({
@@ -109,10 +106,7 @@ async function login(req,res) {
       const result=  await bcrypt.compare(password,user.password)
       if(result){
         const token = await jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn:'7d'})
-        res.cookie("token",token,{
-            httpOnly: true,
-            secure: true
-        })
+        res.cookie("token",token)
         res.status(200).json({
           message:"user login sucessfull"
         })

@@ -1,4 +1,4 @@
-const ImageKit =require('imageKit')
+const ImageKit = require('imagekit')   
 
 const imagekit = new ImageKit({
   publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
@@ -8,12 +8,12 @@ const imagekit = new ImageKit({
 
  async function uploadImage(fileBuffer, fileName) {
   try {
-  ]  const result = await imagekit.upload({
+    const result1 = await imagekit.upload({
         file: fileBuffer,        
         fileName: fileName,
         folder: "/turf-images"
     })
-    return result
+    return result1
   } catch (error) {
     console.error("Image upload failed:", error);
     throw error;
