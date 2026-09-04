@@ -1,7 +1,7 @@
 const jwt=require('jsonwebtoken')
 async function isAuth(req, res, next) {
     try {
-        console.log("cookies received:", req.cookies) 
+      
         const token = req.cookies.token
 
         if (!token) {
