@@ -1,3 +1,4 @@
+
 const facilityModel = require('../model/Facility.model')
 const Model1 = require('../model/UserModel.model')
 const uploadImage = require('../service/imageKit')
@@ -47,13 +48,55 @@ async function create(req, res) {
 }
 
 async function get(req,res){
-   const facility= await facilityModel.find().limit(1)
-   res.status(200).json({message:"list",
-       facility
-   })
+    try{
+
+        const facility= await facilityModel.find().limit(1)
+        res.status(200).json({message:"list",
+            facility
+        })
+    }catch(error){
+        console.log(error)
+    }
 }
 
-module.exports = { create ,get}
+
+
+async function deleteFacility(req,res) {
+    try {
+        const { facilityId } = req.body
+        const facility = await facilityModel.findById(facilityId)
+
+
+        if (!facility) {
+            return res.status(404).json({
+                message: "facility not found"
+            })
+        }
+
+        if (facility.owner.toString() !== req.user.id) {
+            return res.status(403).json({
+                
+                message: "not allowed to delete this facility"
+            })
+        }
+
+        await facilityModel.findByIdAndDelete(facilityId)
+
+        return res.status(200).json({
+            message: "facility deleted successfully"
+        })
+
+    } catch (error) {
+        console.log(error)
+
+        return res.status(500).json({
+            message: "something went wrong",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { create ,get , deleteFacility}
 
 
 
