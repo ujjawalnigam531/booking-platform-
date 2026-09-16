@@ -11,11 +11,8 @@ const Register = () => {
         e.preventDefault()
         const data=new FormData(e.currentTarget)
           const response= await axios.post('http://localhost:5000/api/auth/userRegister',data)
-            console.log(response)
-           
-              toast(response.data.message);
-
-             
+            console.log(response)       
+              toast(response.data.message); 
         if(response.data.message === "now verifying email "){
           navigte("/verifyotp")
         }   
