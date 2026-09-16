@@ -1,5 +1,6 @@
 const bookingModel = require('../model/Booking.model')
 const facilityModel = require('../model/Facility.model')
+const Model1 = require('../model/UserModel.model')
  
 async function createBooking(req, res) {
     try {
@@ -32,7 +33,7 @@ async function createBooking(req, res) {
         })
  
     } catch (error) {
-        // duplicate key error -> unique index on {facility, date, timeSlot} for confirmed bookings
+       
         if (error.code === 11000) {
             return res.status(409).json({ message: "this slot is already booked" })
         }
@@ -49,7 +50,7 @@ async function getAvailableSlots(req, res) {
             return res.status(404).json({ message: "facility not found" })
         }
  
-        // generate hourly slots between openingTime and closingTime, e.g. "09:00" - "22:00"
+        
         const allSlots = []
         let [openHour] = facility.openingTime.split(':').map(Number)
         let [closeHour] = facility.closingTime.split(':').map(Number)
@@ -124,6 +125,36 @@ async function cancelBooking(req, res) {
         res.status(500).json({ message: "something went wrong", error })
     }
 }
+
+async function payment(req,res){
+    try{
+    const user=await Model1.findOne({_id:req.user.id})
+   
+
+    if(user.role=="owner" ){
+        const paramId=req.params.id
+        const facility=await bookingModel.findOne({_id:paramId}).populate('user')
+        if(!facility){return res.status(404).json("facility is not found")}
+        if(user.email==facility.user.email){
+              await bookingModel.findByIdAndUpdate(paramId,{paymentStatus:req.body.paymentStatus})
+              res.status(200).json("updated")
+        }else{
+            res.status(403).json("you are not allowed to change")
+        }
+    }else{
+        res.status(403).json({
+            message :"your not allowed to change"
+        })
+    }
+}catch(error){
+    res.status(400).json({
+
+        "message":"something went wrong"
+    })
+    console.error(error)
+}
+
+}
  
-module.exports = { createBooking, getAvailableSlots, getMyBookings, cancelBooking }
+module.exports = { createBooking, getAvailableSlots, getMyBookings, cancelBooking ,payment}
  

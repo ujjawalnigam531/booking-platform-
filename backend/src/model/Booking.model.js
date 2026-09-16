@@ -10,7 +10,7 @@ const bookingSchema = new mongoose.Schema({
     sportType: { type: String, enum: ["Soccer", "Cricket", "Tennis", "Baseball"], required: true },
     amount: { type: Number, required: true },
     
-
+    
     status: { type: String, enum: ["confirmed", "cancelled"], default: "confirmed" },
     
     

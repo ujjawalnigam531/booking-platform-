@@ -36,7 +36,8 @@ async function register(req, res) {
     const result2= await  uploadImage(req.file.buffer,"profile.jpg")
     const user=await registerModel.create({ name, email, password: newPassword, role, phone, Image:result2.url,otp } )
     res.status(200).json({
-        message: "now verifying email ",
+        message:"now verifying email ",
+        nextStep: "verify-otp"
 
     })}catch(error){
         console.log(error)
@@ -66,7 +67,7 @@ async function otpVerification(req, res) {
     }
     
     
-    if (result.otp == otp) {
+    if (String(result.otp) == String(otp)) {
         
      
 
@@ -91,6 +92,7 @@ async function otpVerification(req, res) {
     }
     }catch(error){
       console.log(error)
+      res.status(500).json({ message: "Internal server error" })
 }
 
 
